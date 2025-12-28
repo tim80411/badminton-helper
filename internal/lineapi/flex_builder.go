@@ -28,25 +28,25 @@ func BuildActivityFlexMessage(activityID string, settings ActivitySettings) mess
 	bubble := &messaging_api.FlexBubble{
 		Hero: &messaging_api.FlexImage{
 			Url:         "https://i.imgur.com/sUrFITq.png",
-			Size:        ptr(messaging_api.FlexImageSize("full")),
-			AspectRatio: ptr(messaging_api.FlexImageAspectRatio("20:13")),
-			AspectMode:  ptr(messaging_api.FlexImageAspectMode("cover")),
+			Size:        "full",
+			AspectRatio: "20:13",
+			AspectMode:  messaging_api.FlexImageASPECT_MODE_COVER,
 			Action: &messaging_api.UriAction{
 				Uri: "https://line.me/",
 			},
 		},
 		Body: &messaging_api.FlexBox{
-			Layout: messaging_api.FlexBoxLayout("vertical"),
+			Layout: messaging_api.FlexBoxLAYOUT_VERTICAL,
 			Contents: []messaging_api.FlexComponentInterface{
 				&messaging_api.FlexText{
 					Text:   "phah kiû lah 🏸",
-					Weight: ptr(messaging_api.FlexTextWeight("bold")),
-					Size:   ptr(messaging_api.FlexTextSize("xl")),
+					Weight: messaging_api.FlexTextWEIGHT_BOLD,
+					Size:   "xl",
 				},
 				&messaging_api.FlexBox{
-					Layout:  messaging_api.FlexBoxLayout("vertical"),
-					Margin:  ptr(messaging_api.FlexComponentMargin("lg")),
-					Spacing: ptr(messaging_api.FlexComponentSpacing("sm")),
+					Layout:  messaging_api.FlexBoxLAYOUT_VERTICAL,
+					Margin:  "lg",
+					Spacing: "sm",
 					Contents: []messaging_api.FlexComponentInterface{
 						buildInfoRow("Place", settings.Place),
 						buildInfoRow("Time", settings.Time),
@@ -54,27 +54,27 @@ func BuildActivityFlexMessage(activityID string, settings ActivitySettings) mess
 						buildInfoRow("Quota", settings.Quota),
 						&messaging_api.FlexText{
 							Text:   "＊想報名幾位就按幾次按鈕，例如：報名臨打 2 位，就按兩次「臨打」",
-							Color:  ptr("#666666"),
-							Size:   ptr(messaging_api.FlexTextSize("sm")),
-							Wrap:   ptr(true),
-							Margin: ptr(messaging_api.FlexComponentMargin("md")),
+							Color:  "#666666",
+							Size:   "sm",
+							Wrap:   true,
+							Margin: "md",
 						},
 						&messaging_api.FlexText{
 							Text:  "⚠️ 臨時有事需取消請提前告知",
-							Color: ptr("#EA0000"),
-			Size:   ptr(messaging_api.FlexTextSize("sm")),
+							Color: "#EA0000",
+							Size:  "sm",
 						},
 					},
 				},
 			},
 		},
 		Footer: &messaging_api.FlexBox{
-			Layout:  messaging_api.FlexBoxLayout("vertical"),
-			Spacing: ptr(messaging_api.FlexComponentSpacing("sm")),
+			Layout:  messaging_api.FlexBoxLAYOUT_VERTICAL,
+			Spacing: "sm",
 			Contents: []messaging_api.FlexComponentInterface{
 				&messaging_api.FlexButton{
-					Style:  ptr(messaging_api.FlexButtonStyle("primary")),
-					Height: ptr(messaging_api.FlexButtonHeight("sm")),
+					Style:  messaging_api.FlexButtonSTYLE_PRIMARY,
+					Height: messaging_api.FlexButtonHEIGHT_SM,
 					Action: &messaging_api.PostbackAction{
 						Label:       "半年繳 / 季繳",
 						Data:        fmt.Sprintf("activityId=%s,message=季繳+1", activityID),
@@ -82,8 +82,8 @@ func BuildActivityFlexMessage(activityID string, settings ActivitySettings) mess
 					},
 				},
 				&messaging_api.FlexButton{
-					Style:  ptr(messaging_api.FlexButtonStyle("secondary")),
-					Height: ptr(messaging_api.FlexButtonHeight("sm")),
+					Style:  messaging_api.FlexButtonSTYLE_SECONDARY,
+					Height: messaging_api.FlexButtonHEIGHT_SM,
 					Action: &messaging_api.PostbackAction{
 						Label:       "臨打",
 						Data:        fmt.Sprintf("activityId=%s,message=臨打+1", activityID),
@@ -91,22 +91,22 @@ func BuildActivityFlexMessage(activityID string, settings ActivitySettings) mess
 					},
 				},
 				&messaging_api.FlexButton{
-					Style:  ptr(messaging_api.FlexButtonStyle("link")),
-					Height: ptr(messaging_api.FlexButtonHeight("sm")),
+					Style:  messaging_api.FlexButtonSTYLE_LINK,
+					Height: messaging_api.FlexButtonHEIGHT_SM,
 					Action: &messaging_api.PostbackAction{
 						Label:       "本週名單",
 						Data:        fmt.Sprintf("action=weekly_list,activityId=%s", activityID),
 						DisplayText: "查看本週名單",
 					},
-					Color: ptr("#17c950"),
+					Color: "#17c950",
 				},
 				&messaging_api.FlexBox{
-					Layout:   messaging_api.FlexBoxLayout("vertical"),
+					Layout:   messaging_api.FlexBoxLAYOUT_VERTICAL,
 					Contents: []messaging_api.FlexComponentInterface{},
-					Margin:   ptr(messaging_api.FlexComponentMargin("sm")),
+					Margin:   "sm",
 				},
 			},
-			Flex: ptr(0),
+			Flex: 0,
 		},
 	}
 
@@ -121,9 +121,9 @@ func BuildWeeklyListFlexMessage(seasonTicket, casualPlay []*domain.Registration,
 	contents := []messaging_api.FlexComponentInterface{
 		&messaging_api.FlexText{
 			Text:   "本週報名名單 📋",
-			Weight: ptr(messaging_api.FlexTextWeight("bold")),
-			Size:   ptr(messaging_api.FlexTextSize("xl")),
-			Margin: ptr(messaging_api.FlexComponentMargin("md")),
+			Weight: messaging_api.FlexTextWEIGHT_BOLD,
+			Size:   "xl",
+			Margin: "md",
 		},
 	}
 
@@ -131,10 +131,10 @@ func BuildWeeklyListFlexMessage(seasonTicket, casualPlay []*domain.Registration,
 	if len(seasonTicket) > 0 {
 		contents = append(contents, &messaging_api.FlexText{
 			Text:   "季繳：",
-			Weight: ptr(messaging_api.FlexTextWeight("bold")),
-			Size:   ptr(messaging_api.FlexTextSize("md")),
-			Color:  ptr("#333333"),
-			Margin: ptr(messaging_api.FlexComponentMargin("lg")),
+			Weight: messaging_api.FlexTextWEIGHT_BOLD,
+			Size:   "md",
+			Color:  "#333333",
+			Margin: "lg",
 		})
 
 		for i, reg := range seasonTicket {
@@ -145,9 +145,9 @@ func BuildWeeklyListFlexMessage(seasonTicket, casualPlay []*domain.Registration,
 
 			contents = append(contents, &messaging_api.FlexText{
 				Text:   displayText,
-				Size:   ptr(messaging_api.FlexTextSize("sm")),
-				Color:  ptr("#666666"),
-				Margin: ptr(messaging_api.FlexComponentMargin("xs")),
+				Size:   "sm",
+				Color:  "#666666",
+				Margin: "xs",
 			})
 		}
 	}
@@ -158,10 +158,10 @@ func BuildWeeklyListFlexMessage(seasonTicket, casualPlay []*domain.Registration,
 
 		contents = append(contents, &messaging_api.FlexText{
 			Text:   "臨打：",
-			Weight: ptr(messaging_api.FlexTextWeight("bold")),
-			Size:   ptr(messaging_api.FlexTextSize("md")),
-			Color:  ptr("#333333"),
-			Margin: ptr(messaging_api.FlexComponentMargin("lg")),
+			Weight: messaging_api.FlexTextWEIGHT_BOLD,
+			Size:   "md",
+			Color:  "#333333",
+			Margin: "lg",
 		})
 
 		for i, reg := range casualPlay {
@@ -172,9 +172,9 @@ func BuildWeeklyListFlexMessage(seasonTicket, casualPlay []*domain.Registration,
 
 			contents = append(contents, &messaging_api.FlexText{
 				Text:   displayText,
-				Size:   ptr(messaging_api.FlexTextSize("sm")),
-				Color:  ptr("#666666"),
-				Margin: ptr(messaging_api.FlexComponentMargin("xs")),
+				Size:   "sm",
+				Color:  "#666666",
+				Margin: "xs",
 			})
 		}
 	}
@@ -183,10 +183,10 @@ func BuildWeeklyListFlexMessage(seasonTicket, casualPlay []*domain.Registration,
 	if len(seasonTicket) == 0 && len(casualPlay) == 0 {
 		contents = append(contents, &messaging_api.FlexText{
 			Text:   "本週還沒有人報名唷！快來報名吧 🏸",
-			Size:   ptr(messaging_api.FlexTextSize("md")),
-			Color:  ptr("#999999"),
-			Margin: ptr(messaging_api.FlexComponentMargin("lg")),
-			Align:  ptr(messaging_api.FlexTextAlign("center")),
+			Size:   "md",
+			Color:  "#999999",
+			Margin: "lg",
+			Align:  messaging_api.FlexTextALIGN_CENTER,
 		})
 	}
 
@@ -194,28 +194,28 @@ func BuildWeeklyListFlexMessage(seasonTicket, casualPlay []*domain.Registration,
 	if !isSaturday {
 		contents = append(contents, &messaging_api.FlexText{
 			Text:   "💡 場地分配將在週六公布",
-			Size:   ptr(messaging_api.FlexTextSize("xs")),
-			Color:  ptr("#999999"),
-			Margin: ptr(messaging_api.FlexComponentMargin("lg")),
-			Align:  ptr(messaging_api.FlexTextAlign("center")),
+			Size:   "xs",
+			Color:  "#999999",
+			Margin: "lg",
+			Align:  messaging_api.FlexTextALIGN_CENTER,
 		})
 	}
 
 	bubble := &messaging_api.FlexBubble{
 		Body: &messaging_api.FlexBox{
-			Layout:   messaging_api.FlexBoxLayout("vertical"),
+			Layout:   messaging_api.FlexBoxLAYOUT_VERTICAL,
 			Contents: contents,
-			Spacing:  ptr(messaging_api.FlexComponentSpacing("sm")),
+			Spacing:  "sm",
 		},
 		Footer: &messaging_api.FlexBox{
-			Layout:  messaging_api.FlexBoxLayout("vertical"),
-			Spacing: ptr(messaging_api.FlexComponentSpacing("sm")),
+			Layout:  messaging_api.FlexBoxLAYOUT_VERTICAL,
+			Spacing: "sm",
 			Contents: []messaging_api.FlexComponentInterface{
 				&messaging_api.FlexText{
 					Text:  "想報名的話請點選上面的按鈕唷！",
-					Size:  ptr(messaging_api.FlexTextSize("xs")),
-					Color: ptr("#aaaaaa"),
-					Align: ptr(messaging_api.FlexTextAlign("center")),
+					Size:  "xs",
+					Color: "#aaaaaa",
+					Align: messaging_api.FlexTextALIGN_CENTER,
 				},
 			},
 		},
@@ -231,45 +231,45 @@ func BuildWeeklyListFlexMessage(seasonTicket, casualPlay []*domain.Registration,
 func BuildRegistrationConfirmMessage(userName, registrationType, registrationID string) messaging_api.MessageInterface {
 	bubble := &messaging_api.FlexBubble{
 		Body: &messaging_api.FlexBox{
-			Layout: messaging_api.FlexBoxLayout("vertical"),
+			Layout: messaging_api.FlexBoxLAYOUT_VERTICAL,
 			Contents: []messaging_api.FlexComponentInterface{
 				&messaging_api.FlexBox{
-					Layout:  messaging_api.FlexBoxLayout("vertical"),
-					Margin:  ptr(messaging_api.FlexComponentMargin("lg")),
-					Spacing: ptr(messaging_api.FlexComponentSpacing("sm")),
+					Layout:  messaging_api.FlexBoxLAYOUT_VERTICAL,
+					Margin:  "lg",
+					Spacing: "sm",
 					Contents: []messaging_api.FlexComponentInterface{
 						&messaging_api.FlexText{
 							Text:   fmt.Sprintf("已記錄 %s 的 %s 報名！想變卦請點按鈕退場 👇", userName, registrationType),
-							Color:  ptr("#272727"),
-							Size:   ptr(messaging_api.FlexTextSize("md")),
-							Wrap:   ptr(true),
-							Margin: ptr(messaging_api.FlexComponentMargin("xs")),
+							Color:  "#272727",
+							Size:   "md",
+							Wrap:   true,
+							Margin: "xs",
 						},
 					},
 				},
 			},
 		},
 		Footer: &messaging_api.FlexBox{
-			Layout:  messaging_api.FlexBoxLayout("vertical"),
-			Spacing: ptr(messaging_api.FlexComponentSpacing("sm")),
+			Layout:  messaging_api.FlexBoxLAYOUT_VERTICAL,
+			Spacing: "sm",
 			Contents: []messaging_api.FlexComponentInterface{
 				&messaging_api.FlexButton{
-					Style:  ptr(messaging_api.FlexButtonStyle("primary")),
-					Height: ptr(messaging_api.FlexButtonHeight("sm")),
+					Style:  messaging_api.FlexButtonSTYLE_PRIMARY,
+					Height: messaging_api.FlexButtonHEIGHT_SM,
 					Action: &messaging_api.PostbackAction{
 						Label:       "取消報名",
 						Data:        fmt.Sprintf("action=cancel,registrationId=%s,userName=%s", registrationID, userName),
 						DisplayText: fmt.Sprintf("%s 申請取消報名！", userName),
 					},
-					Color: ptr("#CE0000"),
+					Color: "#CE0000",
 				},
 				&messaging_api.FlexBox{
-					Layout:   messaging_api.FlexBoxLayout("vertical"),
+					Layout:   messaging_api.FlexBoxLAYOUT_VERTICAL,
 					Contents: []messaging_api.FlexComponentInterface{},
-					Margin:   ptr(messaging_api.FlexComponentMargin("sm")),
+					Margin:   "sm",
 				},
 			},
-			Flex: ptr(0),
+			Flex: 0,
 		},
 	}
 
@@ -282,21 +282,21 @@ func BuildRegistrationConfirmMessage(userName, registrationType, registrationID 
 // buildInfoRow 建立資訊列（Place/Time/Price/Quota）
 func buildInfoRow(label, value string) messaging_api.FlexComponentInterface {
 	return &messaging_api.FlexBox{
-		Layout:  messaging_api.FlexBoxLayout("baseline"),
-		Spacing: ptr(messaging_api.FlexComponentSpacing("sm")),
+		Layout:  messaging_api.FlexBoxLAYOUT_BASELINE,
+		Spacing: "sm",
 		Contents: []messaging_api.FlexComponentInterface{
 			&messaging_api.FlexText{
 				Text:  label,
-				Color: ptr("#aaaaaa"),
-				Size:  ptr(messaging_api.FlexTextSize("sm")),
-				Flex:  ptr(1),
+				Color: "#aaaaaa",
+				Size:  "sm",
+				Flex:  1,
 			},
 			&messaging_api.FlexText{
 				Text:  value,
-				Wrap:  ptr(true),
-				Color: ptr("#666666"),
-				Size:  ptr(messaging_api.FlexTextSize("sm")),
-				Flex:  ptr(5),
+				Wrap:  true,
+				Color: "#666666",
+				Size:  "sm",
+				Flex:  5,
 			},
 		},
 	}

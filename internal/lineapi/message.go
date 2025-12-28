@@ -12,7 +12,7 @@ func (c *Client) ReplyMessage(ctx context.Context, replyToken string, messages [
 	req := &messaging_api.ReplyMessageRequest{
 		ReplyToken:           replyToken,
 		Messages:             messages,
-		NotificationDisabled: ptr(true), // 不顯示通知
+		NotificationDisabled: true, // 不顯示通知
 	}
 
 	_, err := c.messagingAPI.ReplyMessage(req)
@@ -36,9 +36,4 @@ func (c *Client) PushMessage(ctx context.Context, targetID string, messages []me
 	}
 
 	return nil
-}
-
-// ptr 輔助函數：建立指標
-func ptr[T any](v T) *T {
-	return &v
 }
