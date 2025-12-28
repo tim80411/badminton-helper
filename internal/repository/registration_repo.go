@@ -46,7 +46,7 @@ func (r *registrationRepo) Create(ctx context.Context, reg *domain.Registration)
 
 	// 新增資料
 	values := []interface{}{
-		reg.Timestamp.Format("2006-01-02 15:04:05"),
+		reg.Timestamp,
 		reg.GroupID,
 		reg.ActivityID,
 		reg.UserID,

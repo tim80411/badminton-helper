@@ -11,7 +11,7 @@ type Client struct {
 }
 
 // NewClient 建立新的 LINE API 客戶端
-func NewClient(channelToken, channelSecret string) (*Client, error) {
+func NewClient(channelToken string) (*Client, error) {
 	api, err := messaging_api.NewMessagingApiAPI(channelToken)
 	if err != nil {
 		return nil, err

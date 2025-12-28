@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(claude mcp add:*)",
-      "Bash(go get:*)"
+      "Bash(go get:*)",
+      "Bash(go build:*)"
     ]
   }
 }

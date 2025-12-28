@@ -80,6 +80,43 @@ ngrok http 8080
 # https://xxxx.ngrok.io/webhook
 ```
 
+## Docker 部署
+
+### 使用 Docker Compose
+
+```bash
+# 進入 deployments 目錄
+cd deployments
+
+# 建置並啟動容器
+docker-compose up -d
+
+# 查看日誌
+docker-compose logs -f
+
+# 停止容器
+docker-compose down
+```
+
+### 使用 Docker 指令
+
+```bash
+# 建置映像檔
+docker build -t badminton-helper -f deployments/Dockerfile .
+
+# 執行容器
+docker run -d \
+  --name badminton-helper \
+  -p 8080:8080 \
+  -v $(pwd)/credentials/service-account.json:/home/appuser/credentials/service-account.json:ro \
+  -v $(pwd)/configs/settings.yaml:/home/appuser/configs/settings.yaml:ro \
+  --env-file configs/.env \
+  badminton-helper
+
+# 查看日誌
+docker logs -f badminton-helper
+```
+
 ## 專案結構
 
 ```
@@ -97,20 +134,6 @@ badminton-helper/
 ├── credentials/         # GCP 服務帳號金鑰（不納入版控）
 └── deployments/         # Docker 相關檔案
 ```
-
-## 開發狀態
-
-### 已完成
-- [x] Phase 1: 基礎設施搭建
-
-### 進行中
-- [ ] Phase 2: Google Sheets 整合
-- [ ] Phase 3: LINE API 整合
-- [ ] Phase 4: 業務邏輯層
-- [ ] Phase 5: HTTP Handler 層
-- [ ] Phase 6: 主程式與配置
-- [ ] Phase 7: 工具函數
-- [ ] Phase 8: Docker 化與部署
 
 ## License
 
