@@ -36,5 +36,8 @@ go.work
 *.swo
 *~
 
+# Debug binaries (Cursor/VS Code)
+__debug_bin*
+
 # macOS
 .DS_Store
