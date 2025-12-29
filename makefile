@@ -17,7 +17,7 @@ help:
 # 建置 Docker image
 build-image:
 	@echo "正在建置 Docker image..."
-	docker build -f deployments/Dockerfile -t $(FULL_IMAGE_NAME):$(IMAGE_TAG) .
+	docker build -t $(FULL_IMAGE_NAME):$(IMAGE_TAG) .
 	@echo "建置完成: $(FULL_IMAGE_NAME):$(IMAGE_TAG)"
 
 # 執行 Docker container
