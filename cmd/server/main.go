@@ -50,7 +50,11 @@ func main() {
 
 	// 初始化 Google Sheets 客戶端
 	ctx := context.Background()
-	sheetsClient, err := repository.NewSheetsClient(ctx, cfg.GoogleCredentialsPath, cfg.GoogleSheetsSpreadsheetID)
+	credentials := repository.SheetsCredentials{
+		FilePath:   cfg.GoogleCredentialsPath,
+		JSONBase64: cfg.GoogleCredentialsBase64,
+	}
+	sheetsClient, err := repository.NewSheetsClient(ctx, credentials, cfg.GoogleSheetsSpreadsheetID)
 	if err != nil {
 		logger.Fatal("初始化 Google Sheets 客戶端失敗", zap.Error(err))
 	}

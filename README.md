@@ -52,7 +52,8 @@ vim configs/.env
 - `LINE_CHANNEL_ACCESS_TOKEN`：LINE Channel Access Token
 - `LINE_CHANNEL_SECRET`：LINE Channel Secret
 - `GOOGLE_SHEETS_SPREADSHEET_ID`：Google Spreadsheet ID
-- `GOOGLE_APPLICATION_CREDENTIALS`：GCP 服務帳號 JSON 金鑰路徑
+- `GOOGLE_APPLICATION_CREDENTIALS`：GCP 服務帳號 JSON 金鑰路徑（本地開發）
+- `GOOGLE_CREDENTIALS_BASE64`：Base64 編碼的 GCP 服務帳號 JSON（雲端部署，與上者二擇一）
 
 ### 3. 設定 Google Cloud
 
@@ -79,6 +80,47 @@ ngrok http 8080
 # 在 LINE Developers Console 設定 Webhook URL
 # https://xxxx.ngrok.io/webhook
 ```
+
+## Zeabur 部署
+
+### 1. 建立專案
+
+在 [Zeabur](https://zeabur.com) 建立新專案，並連接你的 GitHub 倉庫。
+
+### 2. 設定環境變數
+
+在 Zeabur 的專案設定中，新增以下環境變數：
+
+| 變數名稱 | 說明 |
+|---------|------|
+| `LINE_CHANNEL_ACCESS_TOKEN` | LINE Channel Access Token |
+| `LINE_CHANNEL_SECRET` | LINE Channel Secret |
+| `GOOGLE_SHEETS_SPREADSHEET_ID` | Google Spreadsheet ID |
+| `GOOGLE_CREDENTIALS_BASE64` | Base64 編碼的服務帳號 JSON（見下方說明） |
+| `GIN_MODE` | 設為 `release` |
+
+### 3. 設定 Google 憑證
+
+將 `service-account.json` 進行 **Base64 編碼**後，貼到 `GOOGLE_CREDENTIALS_BASE64` 環境變數中：
+
+```bash
+# macOS / Linux - 產生 Base64 編碼字串
+base64 -i credentials/service-account.json | tr -d '\n'
+
+# 或者使用這個命令（某些系統）
+cat credentials/service-account.json | base64 | tr -d '\n'
+```
+
+將產生的 Base64 字串複製貼到 Zeabur 的環境變數中。
+
+### 4. 部署
+
+Zeabur 會自動偵測 Dockerfile 並進行部署。部署完成後，設定 LINE Webhook URL 為：
+```
+https://your-app.zeabur.app/webhook
+```
+
+---
 
 ## Docker 部署
 

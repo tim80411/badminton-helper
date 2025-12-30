@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"encoding/base64"
 	"fmt"
 
 	"google.golang.org/api/option"
@@ -14,9 +15,28 @@ type SheetsClient struct {
 	spreadsheetID string
 }
 
+type SheetsCredentials struct {
+	FilePath   string
+	JSONBase64 string
+}
+
 // NewSheetsClient 建立新的 Sheets 客戶端
-func NewSheetsClient(ctx context.Context, credentialsPath, spreadsheetID string) (*SheetsClient, error) {
-	service, err := sheets.NewService(ctx, option.WithCredentialsFile(credentialsPath))
+func NewSheetsClient(ctx context.Context, credentials SheetsCredentials, spreadsheetID string) (*SheetsClient, error) {
+	var opt option.ClientOption
+
+	if credentials.JSONBase64 != "" {
+		jsonBytes, err := base64.StdEncoding.DecodeString(credentials.JSONBase64)
+		if err != nil {
+			return nil, fmt.Errorf("解碼 Base64 憑證失敗: %w", err)
+		}
+		opt = option.WithAuthCredentialsJSON(option.ServiceAccount, jsonBytes)
+	} else if credentials.FilePath != "" {
+		opt = option.WithAuthCredentialsFile(option.ServiceAccount, credentials.FilePath)
+	} else {
+		return nil, fmt.Errorf("必須提供憑證檔案路徑或 Base64 編碼的 JSON 內容")
+	}
+
+	service, err := sheets.NewService(ctx, opt)
 	if err != nil {
 		return nil, fmt.Errorf("無法建立 Sheets 服務: %w", err)
 	}

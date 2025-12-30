@@ -19,7 +19,8 @@ type Config struct {
 
 	// Google Sheets 設定
 	GoogleSheetsSpreadsheetID string
-	GoogleCredentialsPath     string
+	GoogleCredentialsPath     string // 憑證檔案路徑（本地開發）
+	GoogleCredentialsBase64   string // Base64 編碼的憑證 JSON（雲端部署）
 
 	// 伺服器設定
 	ServerPort string
@@ -44,6 +45,7 @@ func Load(envPath, settingsPath string) (*Config, error) {
 		LineChannelSecret:         os.Getenv("LINE_CHANNEL_SECRET"),
 		GoogleSheetsSpreadsheetID: os.Getenv("GOOGLE_SHEETS_SPREADSHEET_ID"),
 		GoogleCredentialsPath:     os.Getenv("GOOGLE_APPLICATION_CREDENTIALS"),
+		GoogleCredentialsBase64:   os.Getenv("GOOGLE_CREDENTIALS_BASE64"),
 		ServerPort:                getEnvOrDefault("SERVER_PORT", "8080"),
 		GinMode:                   getEnvOrDefault("GIN_MODE", "debug"),
 	}
@@ -86,8 +88,9 @@ func (c *Config) validate() error {
 	if c.GoogleSheetsSpreadsheetID == "" {
 		return fmt.Errorf("GOOGLE_SHEETS_SPREADSHEET_ID 未設定")
 	}
-	if c.GoogleCredentialsPath == "" {
-		return fmt.Errorf("GOOGLE_APPLICATION_CREDENTIALS 未設定")
+	// 至少要有一種 Google 憑證方式
+	if c.GoogleCredentialsPath == "" && c.GoogleCredentialsBase64 == "" {
+		return fmt.Errorf("必須設定 GOOGLE_APPLICATION_CREDENTIALS 或 GOOGLE_CREDENTIALS_BASE64 其中之一")
 	}
 	return nil
 }
